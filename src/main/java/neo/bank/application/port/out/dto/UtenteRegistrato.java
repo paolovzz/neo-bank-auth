@@ -2,6 +2,9 @@ package neo.bank.application.port.out.dto;
 
 import java.time.LocalDate;
 
+import lombok.Value;
+
+@Value
 public class UtenteRegistrato {
     
     private String nome;
