@@ -84,8 +84,10 @@ public class KeycloakServiceImpl implements IAMService{
     }
 
     @Override
-    public void logout(Token token) {
-        client.logout(REALM, CLIENT_ID, CLIENT_SECRET, token.getRefresh_token());
+    public void logout(String token) {
+
+        Token tokenObj = client.refreshToken(REALM, "password", CLIENT_ID, CLIENT_SECRET, "admin", "admin");
+        client.logout(REALM, CLIENT_ID, CLIENT_SECRET, tokenObj.getRefresh_token());
     }
 
     @Override

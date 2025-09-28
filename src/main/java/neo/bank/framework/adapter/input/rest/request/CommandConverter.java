@@ -1,6 +1,7 @@
 package neo.bank.framework.adapter.input.rest.request;
 
 import neo.bank.application.port.input.dto.LoginUtenteCmd;
+import neo.bank.application.port.input.dto.LogoutUtenteCmd;
 import neo.bank.application.port.input.dto.RegistraUtenteCmd;
 
 public class CommandConverter {
@@ -21,6 +22,10 @@ public class CommandConverter {
         return new LoginUtenteCmd(
             req.getUsername(), 
             req.getPassword());
+    }
+
+    public static final LogoutUtenteCmd toLogoutUtenteCmd(String token) {
+        return new LogoutUtenteCmd(token);
     }
 
 }

@@ -55,14 +55,13 @@ public class AuthResource {
     @POST
     @Path("/logout")
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("cliente-banca")
+    @RolesAllowed("cliente")
     public Response logout(@HeaderParam("Authorization") String authorizationHeader) {
 
-
-        log.info(("Richiesta logout"));
-        // String token = authorizationHeader.substring("Bearer ".length());
-        // app.login(CommandConverter.toLoginUtenteCmd(request));
-        // log.info(("Richiesta login completata"));
+        log.info("Richiesta logout per [{}]", identity.getPrincipal().getName());
+        String token = authorizationHeader.substring("Bearer ".length());
+        app.logout(CommandConverter.toLogoutUtenteCmd(token));
+        log.info(("Richiesta logout completata"));
         return Response.ok().build();
     }
 }

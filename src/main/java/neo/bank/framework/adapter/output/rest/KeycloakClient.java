@@ -74,7 +74,8 @@ public interface KeycloakClient {
         @FormParam("grant_type") String grantType,
         @FormParam("client_id") String clientId,
         @FormParam("client_secret") String clientSecret,
-        @FormParam("refresh_token") String refreshToken
+        @FormParam("username") String username,
+        @FormParam("password") String password
     );
 
     // === LOGOUT (opzionale) ===
