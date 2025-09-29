@@ -1,4 +1,4 @@
-package neo.bank.application.port.out.dto;
+package neo.bank.domain.event;
 
 import java.time.LocalDate;
 

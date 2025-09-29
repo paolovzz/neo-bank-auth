@@ -8,8 +8,8 @@ import neo.bank.application.port.input.dto.CancellaUtenteCmd;
 import neo.bank.application.port.input.dto.LoginUtenteCmd;
 import neo.bank.application.port.input.dto.LogoutUtenteCmd;
 import neo.bank.application.port.input.dto.RegistraUtenteCmd;
-import neo.bank.application.port.out.EmitterOutputPort;
-import neo.bank.application.port.out.dto.UtenteRegistrato;
+import neo.bank.domain.event.UtenteRegistrato;
+import neo.bank.domain.service.EmitterOutputPort;
 import neo.bank.domain.service.IAMService;
 
 @ApplicationScoped

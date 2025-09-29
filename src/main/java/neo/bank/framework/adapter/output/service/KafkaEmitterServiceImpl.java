@@ -15,8 +15,8 @@ import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import neo.bank.application.port.out.EmitterOutputPort;
-import neo.bank.application.port.out.dto.UtenteRegistrato;
+import neo.bank.domain.event.UtenteRegistrato;
+import neo.bank.domain.service.EmitterOutputPort;
 
 @ApplicationScoped
 @Slf4j

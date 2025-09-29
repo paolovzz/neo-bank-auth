@@ -1,6 +1,6 @@
-package neo.bank.application.port.out;
+package neo.bank.domain.service;
 
-import neo.bank.application.port.out.dto.UtenteRegistrato;
+import neo.bank.domain.event.UtenteRegistrato;
 
 public interface EmitterOutputPort {
 
