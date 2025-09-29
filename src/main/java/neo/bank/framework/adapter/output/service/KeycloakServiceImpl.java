@@ -40,7 +40,6 @@ public class KeycloakServiceImpl implements IAMService{
 
         Token token = client.loginAdmin(REALM, "password", CLIENT_ID, CLIENT_SECRET, "admin", "admin");
         final String tokenHeader = "Bearer " + token.getAccess_token();
-        log.info(token.getAccess_token());
         Map<String, Object> user = new HashMap<>();
         user.put("username", username);
         user.put("email", email);
@@ -91,9 +90,13 @@ public class KeycloakServiceImpl implements IAMService{
     }
 
     @Override
-    public void cancellaUtente() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancellaUtente'");
+    public void cancellaUtente(String username) {
+
+        Token token = client.loginAdmin(REALM, "password", CLIENT_ID, CLIENT_SECRET, "admin", "admin");
+        final String tokenHeader = "Bearer " + token.getAccess_token();
+        var users = client.getUsersByUsername(tokenHeader, REALM, username);
+        String userId = (String) users.get(0).get("id");
+        client.deleteUser(tokenHeader, REALM, userId);
     }
     
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
@@ -122,5 +123,12 @@ public interface KeycloakClient {
                                 @PathParam("realm") String realm,
                                 @PathParam("userId") String userId,
                                 List<Ruolo> roles);
+
+
+    @DELETE
+    @Path("/admin/realms/{realm}/users/{userId}")
+    void deleteUser(@HeaderParam("Authorization") String token,
+                    @PathParam("realm") String realm,
+                    @PathParam("userId") String userId);
 
 }

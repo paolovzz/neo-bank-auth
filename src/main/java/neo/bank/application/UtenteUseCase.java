@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neo.bank.application.port.input.dto.CancellaUtenteCmd;
 import neo.bank.application.port.input.dto.LoginUtenteCmd;
 import neo.bank.application.port.input.dto.LogoutUtenteCmd;
 import neo.bank.application.port.input.dto.RegistraUtenteCmd;
@@ -22,7 +23,7 @@ public class UtenteUseCase {
     public void registraUtente(RegistraUtenteCmd cmd) {
         log.info("Registrazione utente avviata...");
         iamService.registraUtente(cmd.getUsername(), cmd.getNome(), cmd.getCognome(), cmd.getPassword(), cmd.getEmail());
-        UtenteRegistrato utenteRegistrato = new UtenteRegistrato(cmd.getNome(), cmd.getCognome(), cmd.getEmail(), cmd.getDataNascita(), cmd.getLuogoNascita(), cmd.getResidenza());
+        UtenteRegistrato utenteRegistrato = new UtenteRegistrato(cmd.getNome(), cmd.getCognome(), cmd.getEmail(), cmd.getDataNascita(), cmd.getLuogoNascita(), cmd.getResidenza(), cmd.getTelefono(), cmd.getCodiceFiscale(), cmd.getUsername());
         emitterOutputPort.inviaUtenteRegistrato(utenteRegistrato);
         log.info("Registrazione utente terminata...");
     }
@@ -38,5 +39,11 @@ public class UtenteUseCase {
         log.info("Logout utente avviato...");
         iamService.logout(cmd.getToken());
         log.info("Logout effettuato...");
+    }
+
+    public void cancellaUtente(CancellaUtenteCmd cmd) {
+        log.info("Cancellazione utente avviata...");
+        iamService.cancellaUtente(cmd.getUsername());
+        log.info("Cancellazione utente terminata...");
     }
 }

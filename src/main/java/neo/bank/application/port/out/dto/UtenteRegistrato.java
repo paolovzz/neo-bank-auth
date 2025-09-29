@@ -13,4 +13,7 @@ public class UtenteRegistrato {
     private LocalDate dataNascita;
     private String luogoNascita;
     private String residenza;
+    private String telefono;
+    private String codiceFiscale;
+    private String username;
 }

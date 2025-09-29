@@ -15,7 +15,9 @@ public class CommandConverter {
             req.getDataNascita(),
             req.getLuogoNascita(), 
             req.getResidenza(), 
-            req.getPassword());
+            req.getPassword(),
+            req.getTelefono(),
+            req.getCodiceFiscale());
     }
 
     public static final LoginUtenteCmd toLoginUtenteCmd(LoginUtenteRequest req) {

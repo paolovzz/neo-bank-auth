@@ -15,5 +15,7 @@ public class RegistraUtenteCmd {
     private String luogoNascita;
     private String residenza;
     private String password;
+    private String telefono;
+    private String codiceFiscale;
     
 }
