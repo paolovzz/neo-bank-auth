@@ -11,7 +11,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import lombok.extern.slf4j.Slf4j;
-import neo.bank.domain.exception.KeyCloakException;
+import neo.bank.domain.exception.KeycloakException;
 import neo.bank.domain.model.Ruolo;
 import neo.bank.domain.model.Token;
 import neo.bank.domain.service.IAMService;
@@ -65,7 +65,7 @@ public class KeycloakServiceImpl implements IAMService{
 
         } catch (WebApplicationException ex) {
             log.error("Errore", ex);
-                throw new KeyCloakException(ex, ex.getResponse().getStatus(), ex.getMessage());
+                throw new KeycloakException(ex, ex.getResponse().getStatus(), ex.getMessage());
         }
     }
 
