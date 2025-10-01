@@ -15,6 +15,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import neo.bank.application.UtenteUseCase;
+import neo.bank.application.port.input.dto.AggiornaEmailUtenteCmd;
 import neo.bank.application.port.input.dto.CancellaUtenteCmd;
 
 @ApplicationScoped
@@ -26,6 +27,7 @@ public class ClienteConsumer {
 
     private static final String EVENT_OWNER = "CLIENTE";
     private static final String EVENT_CREAZIONE_CLIENTE_FALLITA = "CreazioneClienteFallita";
+    private static final String EVENT_EMAIL_AGGIORNATA = "EmailAggiornata";
 
     @Inject
     private UtenteUseCase app;
@@ -44,6 +46,12 @@ public class ClienteConsumer {
                     case EVENT_CREAZIONE_CLIENTE_FALLITA:{
                         String usernameCliente = json.get("usernameCliente").asText();
                         app.cancellaUtente(new CancellaUtenteCmd(usernameCliente));
+                        break;
+                    }
+                    case EVENT_EMAIL_AGGIORNATA:{
+                        String usernameCliente = json.get("username").asText();
+                        String emailCliente = json.get("email").asText();
+                        app.aggiornaEmailCliente(new AggiornaEmailUtenteCmd(usernameCliente, emailCliente));
                         break;
                     }
                     default:

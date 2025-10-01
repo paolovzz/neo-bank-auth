@@ -7,5 +7,6 @@ public interface IAMService {
     public void   logout(String token);
     public void   cancellaUtente(String username);
     void registraUtente(String username, String nome, String cognome, String password, String email);
+    public void aggiornaEmailCliente(String username, String email);
     
 }

@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neo.bank.application.port.input.dto.AggiornaEmailUtenteCmd;
 import neo.bank.application.port.input.dto.CancellaUtenteCmd;
 import neo.bank.application.port.input.dto.LoginUtenteCmd;
 import neo.bank.application.port.input.dto.LogoutUtenteCmd;
@@ -45,5 +46,11 @@ public class UtenteUseCase {
         log.info("Cancellazione utente avviata...");
         iamService.cancellaUtente(cmd.getUsername());
         log.info("Cancellazione utente terminata...");
+    }
+
+    public void aggiornaEmailCliente(AggiornaEmailUtenteCmd cmd) {
+        log.info("Aggiornamento email utente avviato...");
+        iamService.aggiornaEmailCliente(cmd.getUsername(), cmd.getEmail());
+        log.info("Aggiornamento email utente terminato...");
     }
 }

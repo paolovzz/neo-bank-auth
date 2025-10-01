@@ -98,5 +98,16 @@ public class KeycloakServiceImpl implements IAMService{
         String userId = (String) users.get(0).get("id");
         client.deleteUser(tokenHeader, REALM, userId);
     }
+
+    @Override
+    public void aggiornaEmailCliente(String username, String email) {
+        Token token = client.loginAdmin(REALM, "password", CLIENT_ID, CLIENT_SECRET, "admin", "admin");
+        final String tokenHeader = "Bearer " + token.getAccess_token();
+        var users = client.getUsersByUsername(tokenHeader, REALM, username);
+        Map<String, Object> user = users.get(0);
+        user.put("email", email);
+        user.put("emailVerified", true);
+        client.updateUser(tokenHeader, REALM, (String) user.get("id"), user);
+    }
     
 }

@@ -12,6 +12,7 @@ import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -130,5 +131,13 @@ public interface KeycloakClient {
     void deleteUser(@HeaderParam("Authorization") String token,
                     @PathParam("realm") String realm,
                     @PathParam("userId") String userId);
+
+
+    @PUT
+    @Path("/admin/realms/{realm}/users/{userId}")
+    void updateUser(@HeaderParam("Authorization") String authorization,
+                    @PathParam("realm") String realm,
+                    @PathParam("userId") String userId,
+                    Map<String, Object> user);
 
 }
