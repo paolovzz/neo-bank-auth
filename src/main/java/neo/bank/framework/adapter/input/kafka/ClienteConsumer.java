@@ -1,4 +1,4 @@
-package neo.bank.framework.adapter.input.rest.input.kafka;
+package neo.bank.framework.adapter.input.kafka;
 
 import java.util.concurrent.CompletionStage;
 
