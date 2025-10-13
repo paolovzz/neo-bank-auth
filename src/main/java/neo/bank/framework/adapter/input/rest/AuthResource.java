@@ -55,7 +55,6 @@ public class AuthResource {
     @POST
     @Path("/logout")
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("cliente")
     public Response logout(@HeaderParam("Authorization") String authorizationHeader) {
 
         log.info("Richiesta logout per [{}]", identity.getPrincipal().getName());
