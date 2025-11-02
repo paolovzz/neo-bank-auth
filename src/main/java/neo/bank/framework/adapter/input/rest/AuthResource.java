@@ -3,7 +3,6 @@ package neo.bank.framework.adapter.input.rest;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 
 import io.quarkus.security.identity.SecurityIdentity;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
