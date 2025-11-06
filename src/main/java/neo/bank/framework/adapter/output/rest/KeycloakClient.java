@@ -19,8 +19,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import neo.bank.domain.model.Ruolo;
 import neo.bank.domain.model.Token;
+import neo.bank.domain.model.vo.Ruolo;
 
 @Path("/")
 @RegisterRestClient(configKey = "keycloak-client")

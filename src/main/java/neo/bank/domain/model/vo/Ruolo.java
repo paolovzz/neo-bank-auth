@@ -1,4 +1,4 @@
-package neo.bank.domain.model;
+package neo.bank.domain.model.vo;
 
 import lombok.Value;
 
