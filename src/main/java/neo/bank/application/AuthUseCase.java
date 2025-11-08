@@ -9,6 +9,7 @@ import neo.bank.application.port.input.dto.CancellaUtenteCmd;
 import neo.bank.application.port.input.dto.LoginUtenteCmd;
 import neo.bank.application.port.input.dto.LogoutUtenteCmd;
 import neo.bank.application.port.input.dto.RegistraUtenteCmd;
+import neo.bank.domain.event.UtenteCancellato;
 import neo.bank.domain.event.UtenteRegistrato;
 import neo.bank.domain.service.EmitterOutputPort;
 import neo.bank.domain.service.IAMService;
@@ -16,7 +17,7 @@ import neo.bank.domain.service.IAMService;
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
-public class UtenteUseCase {
+public class AuthUseCase {
     
     private final IAMService iamService;
     private final EmitterOutputPort emitterOutputPort;
@@ -45,6 +46,8 @@ public class UtenteUseCase {
     public void cancellaUtente(CancellaUtenteCmd cmd) {
         log.info("Cancellazione utente avviata...");
         iamService.cancellaUtente(cmd.getUsername());
+        UtenteCancellato event = new UtenteCancellato(cmd.getUsername());
+        emitterOutputPort.inviaUtenteCancellato(event);
         log.info("Cancellazione utente terminata...");
     }
 

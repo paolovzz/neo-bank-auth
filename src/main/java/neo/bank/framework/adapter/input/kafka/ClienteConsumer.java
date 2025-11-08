@@ -14,7 +14,7 @@ import io.smallrye.reactive.messaging.kafka.api.IncomingKafkaRecordMetadata;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import neo.bank.application.UtenteUseCase;
+import neo.bank.application.AuthUseCase;
 import neo.bank.application.port.input.dto.AggiornaEmailUtenteCmd;
 import neo.bank.application.port.input.dto.CancellaUtenteCmd;
 
@@ -30,7 +30,7 @@ public class ClienteConsumer {
     private static final String EVENT_EMAIL_AGGIORNATA = "EmailAggiornata";
 
     @Inject
-    private UtenteUseCase app;
+    private AuthUseCase app;
 
     @Incoming("cliente-notifications")
     @Blocking

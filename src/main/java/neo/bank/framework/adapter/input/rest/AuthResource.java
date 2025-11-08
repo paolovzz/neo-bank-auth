@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import neo.bank.application.UtenteUseCase;
+import neo.bank.application.AuthUseCase;
 import neo.bank.framework.adapter.input.rest.request.CommandConverter;
 import neo.bank.framework.adapter.input.rest.request.LoginUtenteRequest;
 import neo.bank.framework.adapter.input.rest.request.RegistraUtenteRequest;
@@ -27,7 +27,7 @@ public class AuthResource {
 
 
     private final SecurityIdentity identity;
-    private final UtenteUseCase app;
+    private final AuthUseCase app;
 
     @POST
     @Path("/registra-utente")

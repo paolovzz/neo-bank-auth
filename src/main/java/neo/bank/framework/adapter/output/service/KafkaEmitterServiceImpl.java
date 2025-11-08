@@ -1,6 +1,5 @@
 package neo.bank.framework.adapter.output.service;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.kafka.common.header.internals.RecordHeaders;
@@ -15,6 +14,7 @@ import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import neo.bank.domain.event.UtenteCancellato;
 import neo.bank.domain.event.UtenteRegistrato;
 import neo.bank.domain.service.EmitterOutputPort;
 
@@ -31,6 +31,20 @@ public class KafkaEmitterServiceImpl implements EmitterOutputPort{
 
     @Override
     public void inviaUtenteRegistrato(UtenteRegistrato body) {
+
+        Message<String> message = Message.of(toJsonString(body))
+        .addMetadata(OutgoingKafkaRecordMetadata.<String>builder()
+                .withHeaders(new RecordHeaders()
+                    .add("eventType", "UtenteRegistrato".getBytes())
+                    .add("aggregateName", OWNER.getBytes())
+                    .add("eventId", UUID.randomUUID().toString().getBytes()))
+                .build());
+            log.info("Evento inviato: {}", message);
+            emitter.send(message);
+    }
+
+    @Override
+    public void inviaUtenteCancellato(UtenteCancellato body) {
 
         Message<String> message = Message.of(toJsonString(body))
         .addMetadata(OutgoingKafkaRecordMetadata.<String>builder()
