@@ -17,6 +17,7 @@ import neo.bank.application.AuthUseCase;
 import neo.bank.framework.adapter.input.rest.request.CommandConverter;
 import neo.bank.framework.adapter.input.rest.request.LoginUtenteRequest;
 import neo.bank.framework.adapter.input.rest.request.RegistraUtenteRequest;
+import neo.bank.framework.adapter.input.rest.response.ErrorResponse;
 import neo.bank.framework.adapter.input.rest.response.LoginResponse;
 
 @Path("/auth")
@@ -61,5 +62,17 @@ public class AuthResource {
         app.logout(CommandConverter.toLogoutUtenteCmd(token));
         log.info(("Richiesta logout completata"));
         return Response.ok().build();
+    }
+
+    @POST
+    @Path("/verifica-token")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response verificaToken(@HeaderParam("Authorization") String authorizationHeader) {
+
+        log.info("Richiesta verifica del token per [{}]", identity.getPrincipal().getName());
+        String token = authorizationHeader.substring("Bearer ".length());
+        boolean isTokenValido = app.verificaToken(CommandConverter.toVerificaTokenCmd(token));
+        log.info(("Verifica del token completata"));
+        return isTokenValido ? Response.ok().build() : Response.status(401).entity(new ErrorResponse("UNAUTHORIZED", "Il token non e' valido")).build();
     }
 }

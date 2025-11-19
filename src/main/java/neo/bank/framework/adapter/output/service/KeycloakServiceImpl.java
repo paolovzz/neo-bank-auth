@@ -11,16 +11,16 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import lombok.extern.slf4j.Slf4j;
+import neo.bank.application.port.output.IAMOutputPort;
 import neo.bank.domain.exception.KeycloakException;
 import neo.bank.domain.model.Token;
 import neo.bank.domain.model.vo.Ruolo;
-import neo.bank.domain.service.IAMService;
 import neo.bank.framework.adapter.output.rest.KeycloakClient;
 
 
 @ApplicationScoped
 @Slf4j
-public class KeycloakServiceImpl implements IAMService{
+public class KeycloakServiceImpl implements IAMOutputPort{
 
     private static final String REALM = "quarkus-app";
     private static final String CLIENT_ID = "banca-app";
@@ -70,16 +70,14 @@ public class KeycloakServiceImpl implements IAMService{
     }
 
     @Override
-    public String refreshToken() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'refreshToken'");
-    }
-
-    @Override
     public String login(String username, String password) {
-        String token = client.login(REALM, "password", CLIENT_ID, CLIENT_SECRET, username, password).getAccess_token();
-        log.info("TOKEN: {}", token);
-        return token;
+        try {
+            String token = client.login(REALM, "password", CLIENT_ID, CLIENT_SECRET, username, password).getAccess_token();
+            return token;
+        } catch(WebApplicationException ex) {
+            log.error("Errore", ex);
+                throw new KeycloakException(ex, ex.getResponse().getStatus(), "Credenziali errate.");
+        }
     }
 
     @Override
@@ -108,6 +106,15 @@ public class KeycloakServiceImpl implements IAMService{
         user.put("email", email);
         user.put("emailVerified", true);
         client.updateUser(tokenHeader, REALM, (String) user.get("id"), user);
+    }
+
+    @Override
+    public boolean verificaToken(String token) {
+
+       Map<String, Object> response = client.verificaToken(REALM, CLIENT_ID, CLIENT_SECRET, token);
+       log.info("Risposta Keycloak: {}", response);
+       Object isTokenValido = response.get("active");
+       return isTokenValido instanceof Boolean && (Boolean) isTokenValido;
     }
     
 }

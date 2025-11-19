@@ -11,7 +11,6 @@ public class UtenteRegistrato {
     private String cognome;
     private String email;
     private LocalDate dataNascita;
-    private String luogoNascita;
     private String residenza;
     private String telefono;
     private String codiceFiscale;

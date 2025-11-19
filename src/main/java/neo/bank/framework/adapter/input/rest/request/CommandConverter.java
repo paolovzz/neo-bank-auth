@@ -3,6 +3,7 @@ package neo.bank.framework.adapter.input.rest.request;
 import neo.bank.application.port.input.dto.LoginUtenteCmd;
 import neo.bank.application.port.input.dto.LogoutUtenteCmd;
 import neo.bank.application.port.input.dto.RegistraUtenteCmd;
+import neo.bank.application.port.input.dto.VerificaTokenCmd;
 
 public class CommandConverter {
 
@@ -13,7 +14,6 @@ public class CommandConverter {
             req.getCognome(), 
             req.getEmail(), 
             req.getDataNascita(),
-            req.getLuogoNascita(), 
             req.getResidenza(), 
             req.getPassword(),
             req.getTelefono(),
@@ -28,6 +28,10 @@ public class CommandConverter {
 
     public static final LogoutUtenteCmd toLogoutUtenteCmd(String token) {
         return new LogoutUtenteCmd(token);
+    }
+
+    public static final VerificaTokenCmd toVerificaTokenCmd(String token) {
+        return new VerificaTokenCmd(token);
     }
 
 }

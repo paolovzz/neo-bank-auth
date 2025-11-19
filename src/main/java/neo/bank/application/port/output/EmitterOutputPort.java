@@ -1,4 +1,4 @@
-package neo.bank.domain.service;
+package neo.bank.application.port.output;
 
 import neo.bank.domain.event.UtenteCancellato;
 import neo.bank.domain.event.UtenteRegistrato;

@@ -140,4 +140,10 @@ public interface KeycloakClient {
                     @PathParam("userId") String userId,
                     Map<String, Object> user);
 
+
+    @POST
+    @Path("/realms/{realm}/protocol/openid-connect/token/introspect")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    Map<String, Object> verificaToken( @PathParam("realm") String realm, @FormParam("client_id") String clientId,  @FormParam("client_secret") String clientSecret, @FormParam("token") String token);
+
 }
