@@ -1,78 +1,49 @@
 package neo.bank.framework.adapter.input.rest;
 
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
-
 import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.HeaderParam;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import neo.bank.application.AuthUseCase;
-import neo.bank.framework.adapter.input.rest.request.CommandConverter;
-import neo.bank.framework.adapter.input.rest.request.LoginUtenteRequest;
-import neo.bank.framework.adapter.input.rest.request.RegistraUtenteRequest;
-import neo.bank.framework.adapter.input.rest.response.ErrorResponse;
-import neo.bank.framework.adapter.input.rest.response.LoginResponse;
+import neo.bank.application.port.input.dto.LoginUtenteCmd;
+import neo.bank.application.port.input.dto.LogoutUtenteCmd;
+import neo.bank.application.port.input.dto.RegistraUtenteCmd;
+import neo.bank.auth.framework.adapter.input.rest.api.AuthApi;
+import neo.bank.auth.framework.adapter.input.rest.model.LoginResponse;
+import neo.bank.auth.framework.adapter.input.rest.model.LoginUtenteRequest;
+import neo.bank.auth.framework.adapter.input.rest.model.RegistraUtenteRequest;
 
-@Path("/auth")
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
-public class AuthResource {
-
+public class AuthResource implements AuthApi {
+    
 
     private final SecurityIdentity identity;
     private final AuthUseCase app;
 
-    @POST
-    @Path("/registra-utente")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response registraUtente(@RequestBody RegistraUtenteRequest request) {
-
-        log.info(("Richiesta registrazione utente"));
-        app.registraUtente(CommandConverter.toRegistraUtenteCmd(request));
-        log.info(("Richiesta esaurita"));
-        return Response.accepted().build();
-    }
-
-    @POST
-    @Path("/login")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(@RequestBody LoginUtenteRequest request) {
-
+    @Override
+    public Response loginUtente(LoginUtenteRequest request) {
         log.info(("Richiesta login"));
-        String token = app.login(CommandConverter.toLoginUtenteCmd(request));
+        String token = app.login(new LoginUtenteCmd(request.getUsername(), request.getPassword()));
         log.info(("Richiesta login completata"));
         return Response.ok(new LoginResponse(token)).build();
     }
-
-    @POST
-    @Path("/logout")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response logout(@HeaderParam("Authorization") String authorizationHeader) {
-
+    @Override
+    public Response logoutUtente(String authorization) {
         log.info("Richiesta logout per [{}]", identity.getPrincipal().getName());
-        String token = authorizationHeader.substring("Bearer ".length());
-        app.logout(CommandConverter.toLogoutUtenteCmd(token));
+        String token = authorization.substring("Bearer ".length());
+        app.logout(new LogoutUtenteCmd(token));
         log.info(("Richiesta logout completata"));
         return Response.ok().build();
     }
-
-    @POST
-    @Path("/verifica-token")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response verificaToken(@HeaderParam("Authorization") String authorizationHeader) {
-
-        log.info("Richiesta verifica del token per [{}]", identity.getPrincipal().getName());
-        String token = authorizationHeader.substring("Bearer ".length());
-        boolean isTokenValido = app.verificaToken(CommandConverter.toVerificaTokenCmd(token));
-        log.info(("Verifica del token completata"));
-        return isTokenValido ? Response.ok().build() : Response.status(401).entity(new ErrorResponse("UNAUTHORIZED", "Il token non e' valido")).build();
+    @Override
+    public Response registraUtente(RegistraUtenteRequest request) {
+        log.info(("Richiesta registrazione utente"));
+        app.registraUtente(new RegistraUtenteCmd(request.getUsername(), request.getNome(), request.getCognome(), request.getEmail(), request.getDataNascita(), request.getResidenza(), request.getPassword(), request.getTelefono(), request.getCodiceFiscale()));
+        log.info(("Richiesta esaurita"));
+        return Response.accepted().build();
     }
 }
