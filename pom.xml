@@ -133,7 +133,7 @@
                 <version>7.0.1</version>
                 <executions>
                     <execution>
-                    <id>conto-corrente-server</id>
+                    <id>auth-server</id>
                     <phase>process-sources</phase>
                     <goals>
                     <goal>generate</goal>
