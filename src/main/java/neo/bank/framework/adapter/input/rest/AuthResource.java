@@ -14,6 +14,7 @@ import neo.bank.auth.framework.adapter.input.rest.api.AuthApi;
 import neo.bank.auth.framework.adapter.input.rest.model.LoginResponse;
 import neo.bank.auth.framework.adapter.input.rest.model.LoginUtenteRequest;
 import neo.bank.auth.framework.adapter.input.rest.model.RegistraUtenteRequest;
+import neo.bank.domain.exception.ValidazioneException;
 
 @ApplicationScoped
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
@@ -34,6 +35,10 @@ public class AuthResource implements AuthApi {
     @Override
     public Response logoutUtente(String authorization) {
         log.info("Richiesta logout per [{}]", identity.getPrincipal().getName());
+        
+        if(authorization == null || authorization.isBlank() || !authorization.startsWith("Bearer ") ) {
+            throw new ValidazioneException(AuthResource.class.getSimpleName(), "Header di autorizzazione mancante o non valido");
+        }
         String token = authorization.substring("Bearer ".length());
         app.logout(new LogoutUtenteCmd(token));
         log.info(("Richiesta logout completata"));

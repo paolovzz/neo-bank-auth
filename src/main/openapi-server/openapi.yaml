@@ -24,6 +24,12 @@ paths:
       responses:
         202:
           description: Richiesta di registrazione accettata
+        400:
+          description: Input non valido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /auth/login:
     post:
@@ -44,6 +50,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+        400:
+          description: Input non valido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: Autenticazione fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /auth/logout:
     post:
@@ -61,6 +79,12 @@ paths:
       responses:
         200:
           description: Logout avvenuto con successo
+        400:
+          description: Input non valido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
