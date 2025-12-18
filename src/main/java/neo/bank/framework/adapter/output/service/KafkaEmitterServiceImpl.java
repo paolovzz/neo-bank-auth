@@ -49,7 +49,7 @@ public class KafkaEmitterServiceImpl implements EmitterOutputPort{
         Message<String> message = Message.of(toJsonString(body))
         .addMetadata(OutgoingKafkaRecordMetadata.<String>builder()
                 .withHeaders(new RecordHeaders()
-                    .add("eventType", "UtenteRegistrato".getBytes())
+                    .add("eventType", "UtenteCancellato".getBytes())
                     .add("aggregateName", OWNER.getBytes())
                     .add("eventId", UUID.randomUUID().toString().getBytes()))
                 .build());
